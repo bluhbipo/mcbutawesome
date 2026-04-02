@@ -58,12 +58,9 @@ public class ModBlockBuilder extends ModBlockList
 	public ModifiedBlock buildAndRegister()
 	{
 		ModifiedBlock block;
-		if(hasGravity)
-		{
-			block = new ModBlockGravity(this);
-		}else{
-			block = new ModBlock(this);
-		}
+
+		block = new ModBlock(this);
+
 		ModBlockList.allBlocks.add(block);
 		return block;
 	}

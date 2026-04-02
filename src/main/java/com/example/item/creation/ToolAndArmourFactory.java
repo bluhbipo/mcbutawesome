@@ -37,4 +37,12 @@ public class ToolAndArmourFactory
 		}
 		return res;
 	}
+	public static String three = "mmm";
+	public static String twoone = "mm ";
+	public static String twotwo = "mm ";
+	public static String one = "m  ";
+	public static String oneone = " m ";
+	public static String onetwo = "  m";
+	public static String axetwo = "ms ";
+	public static String string = " s ";
 }
