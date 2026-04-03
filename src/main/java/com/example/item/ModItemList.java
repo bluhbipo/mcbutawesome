@@ -1,13 +1,12 @@
 package com.example.item;
 
 import com.example.ItemOrBlock;
-import com.example.item.creation.Material;
+import com.example.item.creation.MaterialAG;
 import com.example.item.creation.ModItemBuilder;
 import com.example.item.creation.ToolAndArmourFactory;
 import com.example.item.handler.ModItem;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class ModItemList
@@ -40,12 +39,12 @@ public class ModItemList
 			.setSaturation(0.8f)
 			.cookedFrom((ItemOrBlock) mutton)
 			.buildAndRegister();
-		ModItemBuilder[] netheriteGear = ToolAndArmourFactory.getSet(Material.NETHERITE);
+		ModItemBuilder[] netheriteGear = ToolAndArmourFactory.getSet(MaterialAG.NETHERITE);
 		for (ModItemBuilder mm : netheriteGear)
 		{
 			mm.buildAndRegister();
 		}
-		ModItemBuilder[] enderiteGear = ToolAndArmourFactory.getSet(Material.ENDERITE);
+		ModItemBuilder[] enderiteGear = ToolAndArmourFactory.getSet(MaterialAG.ENDERITE);
 		for (ModItemBuilder mm : enderiteGear)
 		{
 			if(mm.name.equals("Enderite Ingot"))

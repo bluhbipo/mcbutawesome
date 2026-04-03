@@ -3,25 +3,21 @@ package com.example.item.handler;
 import com.example.ItemOrBlock;
 import com.example.item.ModItemDefaults;
 import com.example.item.ModifiedItem;
-import com.example.item.creation.AutogenMaterialItem;
+import com.example.item.creation.ItemTypeAG;
 import com.example.item.creation.ModItemBuilder;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 import net.minecraft.src.*;
 
-import java.util.List;
-
 public class ModItemTool extends ItemTool implements ModifiedItem, ItemOrBlock
 {
-	String name = "";
-	AutogenMaterialItem toolType;
+	public final ModItemBuilder props;
 	public ModItemTool(ModItemBuilder struct)
 	{
-		super(ModItemDefaults.id, 2, EnumToolMaterial.EMERALD, struct.toolType.getEffectiveBlocks());
+		super(ModItemDefaults.id, 2, EnumToolMaterial.EMERALD, struct.autogenItemType.getEffectiveBlocks());
 		ModItemDefaults.init(this, struct);
+		props = struct;
 
-		toolType = struct.toolType;
-		name=struct.name;
 
 		ModItem.getItemByID.put(256+ModItemDefaults.id, this);
 		ModItemDefaults.id++;
@@ -34,15 +30,15 @@ public class ModItemTool extends ItemTool implements ModifiedItem, ItemOrBlock
 	public boolean canHarvestBlock(Block block)
 	{
 		Material mat = block.blockMaterial;
-		if(this.toolType == AutogenMaterialItem.PICKAXE)
+		if(this.props.autogenItemType == ItemTypeAG.PICKAXE)
 		{
 			return mat == Material.rock || mat == Material.iron || mat == Material.glass;
 		}
-		if(this.toolType == AutogenMaterialItem.AXE)
+		if(this.props.autogenItemType == ItemTypeAG.AXE)
 		{
 			return mat == Material.wood || mat == Material.pumpkin;
 		}
-		if(this.toolType == AutogenMaterialItem.SHOVEL)
+		if(this.props.autogenItemType == ItemTypeAG.SHOVEL)
 		{
 			return mat == Material.sand
 				|| mat == Material.clay
@@ -63,7 +59,7 @@ public class ModItemTool extends ItemTool implements ModifiedItem, ItemOrBlock
 	}
 
 	public float getStrVsBlockSuper(ItemStack par1ItemStack, Block par2Block) {
-		Block[] var3 = this.toolType.getEffectiveBlocks();
+		Block[] var3 = this.props.autogenItemType.getEffectiveBlocks();
 		int var4 = var3.length;
 
 		for(int var5 = 0; var5 < var4; ++var5) {
@@ -84,6 +80,6 @@ public class ModItemTool extends ItemTool implements ModifiedItem, ItemOrBlock
 	@Override
 	public String getItemDisplayName(ItemStack par1ItemStack)
 	{
-		return name;
+		return props.name;
 	}
 }

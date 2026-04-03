@@ -4,16 +4,12 @@ import com.example.ItemOrBlock;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
-import net.minecraft.src.Block;
-import net.minecraft.src.EntityFallingSand;
-import net.minecraft.src.Material;
-import net.minecraft.src.World;
+import net.minecraft.src.*;
 
 import java.util.Random;
 
 public class ModBlock extends Block implements ModifiedBlock, ItemOrBlock
 {
-	public ISimpleBlockRenderingHandler renderer;
 	public final ModBlockBuilder props;
 	public ModBlock(ModBlockBuilder struct) {
 
@@ -21,10 +17,6 @@ public class ModBlock extends Block implements ModifiedBlock, ItemOrBlock
 		this.props = struct;
 		System.out.println("here");
 		ModBlockDefaults.id++;
-		if(struct.renderer!=null)
-		{
-			renderer = struct.renderer;
-		}
 		ModBlockDefaults.init(this, struct);
 	}
 
@@ -36,20 +28,21 @@ public class ModBlock extends Block implements ModifiedBlock, ItemOrBlock
 
 	public int getRenderType()
 	{
-		if(renderer == null) return 0;
-		return renderer.getRenderId();
+		if(props.renderer == null) return 0;
+		return props.renderer.getRenderId();
 	}
 
 	@Override
 	public boolean renderAsNormalBlock()
 	{
-		return renderer==null;
+		return props.renderer==null;
 	}
 
 	@Override
 	public boolean isOpaqueCube()
 	{
-		return renderer==null;
+		if(props == null) return true;
+		return props.renderer==null;
 	}
 
 	@Override
@@ -72,23 +65,23 @@ public class ModBlock extends Block implements ModifiedBlock, ItemOrBlock
 
 	}
 
-	private void tryToFall(World par1World, int x, int y, int z) {
-		if (canFallBelow(par1World, x, y - 1, z) && y >= 0) {
+	private void tryToFall(World world, int x, int y, int z) {
+		if (canFallBelow(world, x, y - 1, z) && y >= 0) {
 			byte var8 = 32;
-			if (par1World.checkChunksExist(x - var8, y - var8, z - var8, x + var8, y + var8, z + var8)) {
-				if (!par1World.isRemote) {
-					EntityFallingSand var9 = new EntityFallingSand(par1World, (double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), this.blockID);
-					par1World.spawnEntityInWorld(var9);
+			if (world.checkChunksExist(x - var8, y - var8, z - var8, x + var8, y + var8, z + var8)) {
+				if (!world.isRemote) {
+					EntityFallingSand fallingSand = new EntityFallingSand(world, (double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), this.blockID);
+					world.spawnEntityInWorld(fallingSand);
 				}
 			} else {
-				par1World.setBlockWithNotify(x, y, z, 0);
+				world.setBlockWithNotify(x, y, z, 0);
 
-				while(canFallBelow(par1World, x, y - 1, z) && y > 0) {
+				while(canFallBelow(world, x, y - 1, z) && y > 0) {
 					--y;
 				}
 
 				if (y > 0) {
-					par1World.setBlockWithNotify(x, y, z, this.blockID);
+					world.setBlockWithNotify(x, y, z, this.blockID);
 				}
 			}
 		}

@@ -4,45 +4,29 @@ import com.example.TextUtils;
 
 public class ToolAndArmourFactory
 {
-	public static ModItemBuilder[] getSet(Material m)
+	public static ModItemBuilder[] getSet(MaterialAG m)
 	{
-		ModItemBuilder[] res = new ModItemBuilder[AutogenMaterialItem.values().length];
+		ModItemBuilder[] res = new ModItemBuilder[ItemTypeAG.values().length];
 		int index = 0;
-		for(AutogenMaterialItem t : AutogenMaterialItem.values())
+		for(ItemTypeAG t : ItemTypeAG.values())
 		{
 			res[index] = new ModItemBuilder()
 				.setName(TextUtils.toTitleCase(m.name()) +" "+TextUtils.toTitleCase(t.name()))
-				.setTextureCoords(m.textureIndex, t.textureHeight);
+				.setTextureCoords(m.textureIndex, t.textureHeight)
+				.setAutogenMaterial(m)
+				.setAutogenType(t)
+				;
 
-			if(t.isArmour())
+			if(t.getSuperType() == ItemTypeAG.SuperTypes.ARMOUR)
 			{
-				res[index]
-					.setArmourType(t.textureHeight-7)
-					.setArmourRenderIndex(m.armourRenderIndex);
+				res[index].setArmourType(t.textureHeight-7);
 			}
-			if(t.isTool())
+			if(t.textureHeight == ItemTypeAG.INGOT.textureHeight)
 			{
-				res[index]
-					.setToolType(t);
-			}
-			if(t.textureHeight != AutogenMaterialItem.INGOT.textureHeight)
-			{
-				res[index]
-					.setEnchantability(m.enchantability)
-					.setDurabilityFactor(m.durabilityFactor);
-			}else{
 				res[index].cookedFrom(m.getOre());
 			}
 			index++;
 		}
 		return res;
 	}
-	public static String three = "mmm";
-	public static String twoone = "mm ";
-	public static String twotwo = "mm ";
-	public static String one = "m  ";
-	public static String oneone = " m ";
-	public static String onetwo = "  m";
-	public static String axetwo = "ms ";
-	public static String string = " s ";
 }

@@ -15,6 +15,8 @@ public class ModBlockList
 		return allBlocks;
 	}
 	public static ModifiedBlock netheriteOre;
+	public static ModifiedBlock netheriteBlock;
+	public static ModifiedBlock enderiteBlock;
 	private static void generate()
 	{
 		new ModBlockBuilder()
@@ -34,6 +36,16 @@ public class ModBlockList
 			.setName("Netherite Ore")
 			.setTextureCoords(0, 15)
 			.setStepSound(Block.soundStoneFootstep)
+			.buildAndRegister();
+		netheriteBlock = new ModBlockBuilder()
+			.setName("Netherite Block")
+			.setTextureCoords(0, 14)
+			.setStepSound(Block.soundMetalFootstep)
+			.buildAndRegister();
+		enderiteBlock = new ModBlockBuilder()
+			.setName("Enderite Block")
+			.setTextureCoords(1, 14)
+			.setStepSound(Block.soundMetalFootstep)
 			.buildAndRegister();
 	}
 }

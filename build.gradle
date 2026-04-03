@@ -56,11 +56,12 @@ unimined.minecraft {
 
 
 repositories {
+    mavenCentral()
 }
 
 dependencies {
+    implementation 'it.unimi.dsi:fastutil:8.5.13'
 }
-
 
 processResources {
     inputs.property "version", project.version

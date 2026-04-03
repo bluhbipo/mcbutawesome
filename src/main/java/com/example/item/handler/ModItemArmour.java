@@ -7,31 +7,30 @@ import com.example.item.creation.ModItemBuilder;
 import net.minecraft.src.EnumArmorMaterial;
 import net.minecraft.src.ItemArmor;
 import net.minecraft.src.ItemStack;
+import net.minecraftforge.common.EnumHelper;
 
 public class ModItemArmour extends ItemArmor implements ModifiedItem, ItemOrBlock
 {
-	String name = "";
-	public int enchantability;
+	public final ModItemBuilder props;
 	private static final int[] maxDamageArray = new int[]{11, 16, 15, 13};
 	public ModItemArmour(ModItemBuilder struct)
 	{
-		super(ModItemDefaults.id, EnumArmorMaterial.DIAMOND, struct.armourRenderIndex, struct.armourType);
-		this.enchantability = struct.enchantability;
-		this.setMaxDamage(maxDamageArray[struct.armourType]*struct.durabilityFactor);
+		super(ModItemDefaults.id, EnumArmorMaterial.DIAMOND, struct.armourType, struct.armourType);
+		props = struct;
+		this.setMaxDamage(maxDamageArray[struct.armourType]*struct.autogenMaterial.durabilityFactor);
 		ModItemDefaults.init(this, struct);
-		name=struct.name;
 		ModItem.getItemByID.put(256+ModItemDefaults.id, this);
 		ModItemDefaults.id++;
 
 	}
 	@Override
 	public int getItemEnchantability() {
-		return enchantability;
+		return props.autogenMaterial.enchantability;
 	}
 	@Override
 	public String getItemDisplayName(ItemStack par1ItemStack)
 	{
-		return name;
+		return props.name;
 	}
 
 }

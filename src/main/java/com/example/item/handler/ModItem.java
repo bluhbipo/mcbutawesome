@@ -10,20 +10,17 @@ import com.example.OwnerCode;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ModItem extends Item implements ModifiedItem, ItemOrBlock
+public class ModItem extends Item implements ItemOrBlock, ModifiedItem
 {
 	public static Map<Integer, ModifiedItem> getItemByID = new HashMap<>();
-	public OwnerCode<Object> rightClickLogic;
-	public boolean alwaysEdible;
-	String name = "";
+	public final ModItemBuilder props;
 	public ModItem(ModItemBuilder struct)
 	{
-		super(ModItemDefaults.id);
-		rightClickLogic = struct.rightClick;
-		name=struct.name;
+		super(ModItemDefaults.id-256);
+		props = struct;
 		ModItemDefaults.init(this, struct);
 		this.setCreativeTab(CreativeTabs.tabMisc);
-		getItemByID.put(256+ModItemDefaults.id, this);
+		getItemByID.put(ModItemDefaults.id, this);
 		ModItemDefaults.id++;
 	}
 
@@ -33,20 +30,20 @@ public class ModItem extends Item implements ModifiedItem, ItemOrBlock
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
 
-		if (par3EntityPlayer.canEat(this.alwaysEdible)) {
-			par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
+		if (player.canEat(false)) {
+			player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
 		}
 
-		return par1ItemStack;
+		return itemStack;
 	}
 
 
 	@Override
-	public String getItemDisplayName(ItemStack par1ItemStack)
+	public String getItemDisplayName(ItemStack itemStack)
 	{
-		return name;
+		return props.name;
 	}
 
 	public static ModifiedItem getModItemFromItemStack(ItemStack i)

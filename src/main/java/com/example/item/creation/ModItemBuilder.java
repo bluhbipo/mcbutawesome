@@ -8,6 +8,7 @@ import com.example.item.handler.ModItemFood;
 import com.example.item.ModItemList;
 import com.example.item.ModifiedItem;
 import com.example.item.handler.ModItemTool;
+import org.jetbrains.annotations.NotNull;
 
 public class ModItemBuilder extends ModItemList
 {
@@ -21,7 +22,7 @@ public class ModItemBuilder extends ModItemList
 	public int hungerPoints;
 	public ItemOrBlock cookedFrom;
 	public Integer armourType;
-	public AutogenMaterialItem toolType;
+	public ItemTypeAG autogenItemType;
 
 	public ModItemBuilder setRightClick(OwnerCode<Object> rc)
 	{
@@ -69,40 +70,41 @@ public class ModItemBuilder extends ModItemList
 		armourType = a;
 		return this;
 	}
+	@NotNull
 	public ModifiedItem buildAndRegister()
 	{
 		if(isEdible) return new ModItemFood(this);
-		if(armourType!=null) return new ModItemArmour(this);
-		if(toolType!=null && toolType.isTool()) return new ModItemTool(this);
-		return new ModItem(this);
 
+		ModifiedItem toReturn;
+		if(armourType!=null)
+		{
+			toReturn = new ModItemArmour(this);
+		}else{
+			if(autogenItemType != null && autogenItemType.getSuperType() == ItemTypeAG.SuperTypes.TOOL)
+			{
+				toReturn = new ModItemTool(this);
+			}else{
+				toReturn = new ModItem(this);
+			}
+		}
+		if(autogenMaterial != null)
+		{
+			MaterialAG.modItemMap.put(autogenMaterial, autogenItemType, toReturn);
+		}
+		return toReturn;
 
 	}
 
-	public int enchantability;
-	public ModItemBuilder setEnchantability(int e)
+	public ModItemBuilder setAutogenType(ItemTypeAG t)
 	{
-		enchantability = e;
+		this.autogenItemType = t;
 		return this;
 	}
 
-	public int durabilityFactor;
-	public ModItemBuilder setDurabilityFactor(int d)
+	public MaterialAG autogenMaterial;
+	public ModItemBuilder setAutogenMaterial(MaterialAG m)
 	{
-		this.durabilityFactor=d;
-		return this;
-	}
-
-	public int armourRenderIndex;
-	public ModItemBuilder setArmourRenderIndex(int a)
-	{
-		this.armourRenderIndex = a;
-		return this;
-	}
-
-	public ModItemBuilder setToolType(AutogenMaterialItem t)
-	{
-		this.toolType = t;
+		this.autogenMaterial = m;
 		return this;
 	}
 }

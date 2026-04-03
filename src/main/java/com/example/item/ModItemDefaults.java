@@ -9,14 +9,16 @@ import net.minecraft.src.ItemStack;
 public class ModItemDefaults
 {
 	public static int id = 10000;
-	public static void init(Item i, ModItemBuilder ii)
+	public static void init(ModifiedItem i, ModItemBuilder ii)
 	{
 		System.out.println("registered item with id: "+(256+id));
 
-		i.setItemName(ii.name);
-		i.setIconCoord(ii.tx, ii.ty);
-		i.setTextureFile("/mods/themod/textures/items.png");
-		i.setIconIndex(ii.tx+16*ii.ty);
+
+		Item item = (Item)i;
+		item.setItemName(ii.name);
+		item.setIconCoord(ii.tx, ii.ty);
+		item.setTextureFile("/mods/themod/textures/items.png");
+		item.setIconIndex(ii.tx+16*ii.ty);
 
 		if(ii.cookedFrom != null)
 		{
@@ -24,13 +26,13 @@ public class ModItemDefaults
 			{
 				FurnaceRecipes.smelting().addSmelting(
 					((Item)ii.cookedFrom).shiftedIndex,
-					new ItemStack(i),
+					new ItemStack(item),
 					0.35F
 				);
 			}else{
 				FurnaceRecipes.smelting().addSmelting(
 					((Block)ii.cookedFrom).blockID,
-					new ItemStack(i),
+					new ItemStack(item),
 					0.35F
 				);
 			}
