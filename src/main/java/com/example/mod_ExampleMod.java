@@ -40,8 +40,14 @@ public class mod_ExampleMod extends BaseMod {
         doItems();
         doRecipes();
         doEntities();
-        doBiomes();
-        doListeners();
+		try
+		{
+			doBiomes();
+		} catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
+		doListeners();
         KeyBinds.inject();
         TickRegistry.registerTickHandler(new ClientTickHandler(), Side.CLIENT);
         MinecraftForge.EVENT_BUS.register(new Listeners());
@@ -146,8 +152,8 @@ public class mod_ExampleMod extends BaseMod {
 
     }
 
-    public void doBiomes()
-    {
+    public void doBiomes() throws Exception
+	{
         BiomeOverride.inject();
     }
 
