@@ -4,6 +4,7 @@ import com.example.ItemOrBlock;
 import com.example.item.ModItemDefaults;
 import com.example.item.ModifiedItem;
 import com.example.item.creation.ItemTypeAG;
+import com.example.item.creation.MaterialAG;
 import com.example.item.creation.ModItemBuilder;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
@@ -17,6 +18,8 @@ public class ModItemTool extends ItemTool implements ModifiedItem, ItemOrBlock
 		super(ModItemDefaults.id, 2, EnumToolMaterial.EMERALD, struct.autogenItemType.getEffectiveBlocks());
 		ModItemDefaults.init(this, struct);
 		props = struct;
+
+		setMaxDamage(47 * struct.autogenMaterial.durabilityFactor);
 
 		ModItem.getItemByID.put(256+ModItemDefaults.id, this);
 		ModItemDefaults.id++;

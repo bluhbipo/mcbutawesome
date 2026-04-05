@@ -8,9 +8,8 @@ import java.util.List;
 
 public class CustomItem extends Item
 {
-	ItemArmor a;
+	ItemTool a;
 	public final int shiftedIndex;
-	private int maxDamage;
 	private Item containerItem;
 	private String potionEffect;
 	private String currentTexture;
@@ -20,7 +19,7 @@ public class CustomItem extends Item
 		super(source.shiftedIndex-256);
 		this.shiftedIndex = source.shiftedIndex;
 		this.maxStackSize = source.getItemStackLimit();
-		this.maxDamage = source.getMaxDamage();
+		setMaxDamage(source.getMaxDamage());
 		this.iconIndex = source.getIconIndex(new ItemStack(this));
 		this.bFull3D = source.isFull3D();
 		this.hasSubtypes = source.getHasSubtypes();
@@ -73,7 +72,6 @@ public class CustomItem extends Item
 		{
 			if (block != target) continue;
 			float efficiency = 1.0f;
-			System.out.println(source.getItemName());
 			if (source.getItemName().contains("Wood"))
 			{
 				efficiency = EnumToolMaterial.WOOD.getEfficiencyOnProperMaterial();
