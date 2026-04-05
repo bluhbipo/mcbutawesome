@@ -40,13 +40,7 @@ public class mod_ExampleMod extends BaseMod {
         doItems();
         doRecipes();
         doEntities();
-		try
-		{
-			doBiomes();
-		} catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
+		doBiomes();
 		doListeners();
         KeyBinds.inject();
         TickRegistry.registerTickHandler(new ClientTickHandler(), Side.CLIENT);
@@ -152,7 +146,7 @@ public class mod_ExampleMod extends BaseMod {
 
     }
 
-    public void doBiomes() throws Exception
+    public void doBiomes()
 	{
         BiomeOverride.inject();
     }

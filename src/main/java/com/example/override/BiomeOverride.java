@@ -12,7 +12,7 @@ import java.util.Hashtable;
 
 public class BiomeOverride
 {
-	public static void inject() throws Exception
+	public static void inject()
 	{
 
 		BiomeGenBase.plains.color = 0x00FF00;

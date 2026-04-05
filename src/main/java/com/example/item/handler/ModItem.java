@@ -4,10 +4,12 @@ import com.example.ItemOrBlock;
 import com.example.item.ModItemDefaults;
 import com.example.item.ModifiedItem;
 import com.example.item.creation.ModItemBuilder;
+import com.example.override.itemoverrides.ToolTipRules;
 import net.minecraft.src.*;
 import com.example.OwnerCode;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ModItem extends Item implements ItemOrBlock, ModifiedItem
@@ -22,6 +24,12 @@ public class ModItem extends Item implements ItemOrBlock, ModifiedItem
 		this.setCreativeTab(CreativeTabs.tabMisc);
 		getItemByID.put(ModItemDefaults.id, this);
 		ModItemDefaults.id++;
+	}
+
+	@Override
+	public void addInformation(ItemStack itemStack, List list)
+	{
+		ToolTipRules.getTooltip(this, itemStack, list);
 	}
 
 	@Override

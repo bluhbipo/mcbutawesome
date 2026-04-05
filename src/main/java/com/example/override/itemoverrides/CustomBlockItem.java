@@ -8,28 +8,17 @@ import java.util.List;
 
 public class CustomBlockItem extends ItemBlock
 {
-	List preamble;
-	public CustomBlockItem(Block source, List preamble)
-	{
-		super(source.blockID-256);
-		this.preamble = preamble;
-	}
-
+	Block source;
 	public CustomBlockItem(Block source)
 	{
 		super(source.blockID-256);
+		this.source = source;
 	}
 
+
 	@Override
-	public void addInformation(ItemStack par1ItemStack, List par2List)
+	public void addInformation(ItemStack itemStack, List list)
 	{
-		if(preamble != null)
-		{
-			if(!preamble.isEmpty())
-			{
-				par2List.addAll(preamble);
-			}
-		}
-		par2List.add("§b§oSOULBOUND");
+		ToolTipRules.getTooltipBlock(source, itemStack, list);
 	}
 }

@@ -4,10 +4,13 @@ import com.example.ItemOrBlock;
 import com.example.item.ModItemDefaults;
 import com.example.item.ModifiedItem;
 import com.example.item.creation.ModItemBuilder;
+import com.example.override.itemoverrides.ToolTipRules;
 import net.minecraft.src.EnumArmorMaterial;
 import net.minecraft.src.ItemArmor;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.EnumHelper;
+
+import java.util.List;
 
 public class ModItemArmour extends ItemArmor implements ModifiedItem, ItemOrBlock
 {
@@ -23,6 +26,13 @@ public class ModItemArmour extends ItemArmor implements ModifiedItem, ItemOrBloc
 		ModItemDefaults.id++;
 
 	}
+
+	@Override
+	public void addInformation(ItemStack itemStack, List list)
+	{
+		ToolTipRules.getTooltip(this, itemStack, list);
+	}
+
 	@Override
 	public int getItemEnchantability() {
 		return props.autogenMaterial.enchantability;

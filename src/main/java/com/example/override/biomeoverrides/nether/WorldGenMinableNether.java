@@ -53,22 +53,22 @@ public class WorldGenMinableNether extends WorldGenerator
 
 			for (int x = minX; x <= maxX; ++x) {
 				double xDist = (x + 0.5 - currentX) / (radiusX / 2.0);
-				if (xDist * xDist < 1.0) {
-					for (int y = minY; y <= maxY; ++y) {
-						double yDist = (y + 0.5 - currentY) / (radiusY / 2.0);
-						if (xDist * xDist + yDist * yDist < 1.0) {
-							for (int z = minZ; z <= maxZ; ++z) {
-								double zDist = (z + 0.5 - currentZ) / (radiusX / 2.0); // x and z radius are same
-								Block currentBlock = Block.blocksList[world.getBlockId(x, y, z)];
-								if (xDist * xDist + yDist * yDist + zDist * zDist < 1.0
-									&& currentBlock != null
-									&& currentBlock.blockID == Block.netherrack.blockID) {
-									world.setBlockAndMetadata(x, y, z, this.minableBlockId, this.minableBlockMeta);
-								}
-							}
+				if (xDist * xDist > 1.0) continue;
+				for (int y = minY; y <= maxY; ++y) {
+					double yDist = (y + 0.5 - currentY) / (radiusY / 2.0);
+					if (xDist * xDist + yDist * yDist > 1.0) continue;
+					for (int z = minZ; z <= maxZ; ++z) {
+						double zDist = (z + 0.5 - currentZ) / (radiusX / 2.0); // x and z radius are same
+						Block currentBlock = Block.blocksList[world.getBlockId(x, y, z)];
+						if (xDist * xDist + yDist * yDist + zDist * zDist < 1.0
+							&& currentBlock != null
+							&& currentBlock.blockID == Block.netherrack.blockID) {
+							world.setBlockAndMetadata(x, y, z, this.minableBlockId, this.minableBlockMeta);
 						}
 					}
+
 				}
+
 			}
 		}
 
